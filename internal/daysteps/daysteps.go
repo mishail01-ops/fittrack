@@ -2,7 +2,6 @@ package daysteps
 
 import (
 	"fmt"
-	"log"
 	"strconv"
 	"strings"
 	"time"
@@ -41,8 +40,7 @@ func parsePackage(data string) (int, time.Duration, error) {
 		return step, duration, nil
 	}
 
-	err = fmt.Errorf("Неверный формат данных")
-	log.Println(err)
+	err = fmt.Errorf("Неверный формат данных1")
 	return 0, 0, err
 
 }
