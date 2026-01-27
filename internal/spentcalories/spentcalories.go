@@ -56,7 +56,21 @@ func TrainingInfo(data string, weight, height float64) (string, error) {
 		log.Println(err)
 		return "", err
 	}
+
+	if weight <= 0 {
+		err = fmt.Errorf("Вес должен быть больше нуля")
+		log.Println(err)
+		return "", err
+	}
+
+	if height <= 0 {
+		err = fmt.Errorf("Рост должен быть больше нуля")
+		log.Println(err)
+		return "", err
+	}
+
 	var calories float64
+
 	switch tp {
 	case "Бег":
 
@@ -79,7 +93,13 @@ func TrainingInfo(data string, weight, height float64) (string, error) {
 	dist := distance(steps, height)
 	speed := meanSpeed(steps, height, duration)
 
-	return fmt.Sprintf("Тип тренировки: %s\nДлительность: %.2f ч.\nДистанция: %.2f км.\nСкорость: %.2f км/ч\nСожгли калорий: %.2f ккал.", tp, duration.Hours(), dist, speed, calories), nil
+	//Тип тренировки: Бег
+	//Длительность: 0.75 ч.
+	//Дистанция: 10.00 км.
+	//Скорость: 13.34 км/ч
+	//Сожгли калорий: 18621.75
+
+	return fmt.Sprintf("Тип тренировки: %s\nДлительность: %.2f ч.\nДистанция: %.2f км.\nСкорость: %.2f км/ч\nСожгли калорий: %.2f ккал", tp, duration.Hours(), dist, speed, calories), nil
 
 }
 

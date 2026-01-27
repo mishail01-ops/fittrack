@@ -5,6 +5,8 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	sc "github.com/Yandex-Practicum/tracker/internal/spentcalories"
 )
 
 const (
@@ -50,12 +52,15 @@ func DayActionInfo(data string, weight, height float64) string {
 	}
 	distance := float64(steps) * stepLength / mInKm
 
-	wspent, err := WalkingSpentCalories(steps, weight, height, duration)
+	wspent, err := sc.WalkingSpentCalories(steps, weight, height, duration)
 	if err != nil {
 		fmt.Println("Ошибка: ", err)
 		return ""
 	}
 
+	//Количество шагов: 792.
+	//Дистанция составила 0.51 км.
+	//Вы сожгли 221.33 ккал.
 	return fmt.Sprintf("Количество шагов: %d.\nДистанция составила %.2f км.\nВы сожгли %.2f ккал.", steps, distance, wspent)
 
 }
