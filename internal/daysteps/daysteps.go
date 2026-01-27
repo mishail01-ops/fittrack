@@ -19,22 +19,27 @@ const (
 func parsePackage(data string) (int, time.Duration, error) {
 
 	spl := strings.Split(data, ",")
+	var step int
+	var err error
+	var duration time.Duration
 
-	if len(spl) != 2 {
-		return 0, 0, fmt.Errorf("Неверный формат данных")
+	if len(spl) == 2 {
+		//return 0, 0, fmt.Errorf("Неверный формат данных")
+		step, err = strconv.Atoi(spl[0])
+		if err != nil {
+			return 0, 0, err
+		}
+		if step <= 0 {
+			return 0, 0, fmt.Errorf("Количество шагов должна быть больше нуля")
+		}
+
+		duration, err = time.ParseDuration(spl[1])
+		if err != nil {
+			return 0, 0, err
+		}
+		return step, duration, nil
 	}
-
-	step, err := strconv.Atoi(spl[0])
-
-	if err != nil {
-		return 0, 0, err
-	}
-
-	duration, err := time.ParseDuration(spl[1])
-	if err != nil {
-		return 0, 0, err
-	}
-	return step, duration, nil
+	return 0, 0, fmt.Errorf("Неверный формат данных")
 
 }
 

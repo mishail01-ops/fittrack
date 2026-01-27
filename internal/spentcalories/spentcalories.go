@@ -113,7 +113,7 @@ func RunningSpentCalories(steps int, weight, height float64, duration time.Durat
 	}
 
 	if steps <= 0 {
-		return 0, fmt.Errorf("Количество шагов не может быть отрицательным")
+		return 0, fmt.Errorf("Количество шагов должна быть больше нуля")
 	}
 
 	if duration.Minutes() <= 0 {
