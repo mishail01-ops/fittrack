@@ -28,11 +28,21 @@ func parseTraining(data string) (int, string, time.Duration, error) {
 	if err != nil {
 		return 0, "", 0, err
 	}
+	//Дополнительная проверка
+	if steps <= 0 {
+		return 0, "", 0, fmt.Errorf("Количество шагов должна быть больше нуля")
+	}
+	//Конец доп. проверкам
 
 	duration, err := time.ParseDuration(spl[2])
 	if err != nil {
 		return 0, "", 0, err
 	}
+	//Дополнительная проверка
+	if duration.Minutes() <= 0 {
+		return 0, "", 0, fmt.Errorf("Длительность тренировки должна быть больше нуля")
+	}
+	//Конец доп. проверкам
 
 	return steps, spl[1], duration, nil
 }
@@ -46,6 +56,17 @@ func meanSpeed(steps int, height float64, duration time.Duration) float64 {
 	if duration.Hours() <= 0 {
 		return 0
 	}
+
+	//Дополнительная проверка
+	if steps <= 0 {
+		return 0
+	}
+
+	if height <= 0 {
+		return 0
+	}
+	//Конец доп. проверкам
+
 	return distance(steps, height) / duration.Hours()
 
 }
