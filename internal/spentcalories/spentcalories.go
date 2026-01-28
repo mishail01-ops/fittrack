@@ -1,6 +1,7 @@
 package spentcalories
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"strconv"
@@ -22,7 +23,7 @@ func parseTraining(data string) (int, string, time.Duration, error) {
 	spl := strings.Split(data, ",")
 
 	if len(spl) != 3 {
-		return 0, "", 0, fmt.Errorf("Неверный формат данных")
+		return 0, "", 0, errors.New("Неверный формат данных")
 	}
 	steps, err := strconv.Atoi(spl[0])
 	if err != nil {
@@ -30,7 +31,7 @@ func parseTraining(data string) (int, string, time.Duration, error) {
 	}
 	//Дополнительная проверка
 	if steps <= 0 {
-		return 0, "", 0, fmt.Errorf("Количество шагов должна быть больше нуля")
+		return 0, "", 0, errors.New("Количество шагов должна быть больше нуля")
 	}
 	//Конец доп. проверкам
 
@@ -40,7 +41,7 @@ func parseTraining(data string) (int, string, time.Duration, error) {
 	}
 	//Дополнительная проверка
 	if duration.Minutes() <= 0 {
-		return 0, "", 0, fmt.Errorf("Длительность тренировки должна быть больше нуля")
+		return 0, "", 0, errors.New("Длительность тренировки должна быть больше нуля")
 	}
 	//Конец доп. проверкам
 
@@ -126,19 +127,19 @@ func TrainingInfo(data string, weight, height float64) (string, error) {
 
 func RunningSpentCalories(steps int, weight, height float64, duration time.Duration) (float64, error) {
 	if weight <= 0 {
-		return 0, fmt.Errorf("Вес должен быть больше нуля")
+		return 0, errors.New("Вес должен быть больше нуля")
 	}
 
 	if height <= 0 {
-		return 0, fmt.Errorf("Рост должен быть больше нуля")
+		return 0, errors.New("Рост должен быть больше нуля")
 	}
 
 	if steps <= 0 {
-		return 0, fmt.Errorf("Количество шагов должна быть больше нуля")
+		return 0, errors.New("Количество шагов должна быть больше нуля")
 	}
 
 	if duration.Minutes() <= 0 {
-		return 0, fmt.Errorf("Длительность тренировки должна быть больше нуля")
+		return 0, errors.New("Длительность тренировки должна быть больше нуля")
 	}
 
 	speed := meanSpeed(steps, height, duration)
@@ -150,19 +151,19 @@ func RunningSpentCalories(steps int, weight, height float64, duration time.Durat
 
 func WalkingSpentCalories(steps int, weight, height float64, duration time.Duration) (float64, error) {
 	if weight <= 0 {
-		return 0, fmt.Errorf("Вес должен быть больше нуля")
+		return 0, errors.New("Вес должен быть больше нуля")
 	}
 
 	if height <= 0 {
-		return 0, fmt.Errorf("Рост должен быть больше нуля")
+		return 0, errors.New("Рост должен быть больше нуля")
 	}
 
 	if steps <= 0 {
-		return 0, fmt.Errorf("Количество шагов не может быть отрицательным")
+		return 0, errors.New("Количество шагов не может быть отрицательным")
 	}
 
 	if duration.Minutes() <= 0 {
-		return 0, fmt.Errorf("Длительность тренировки должна быть больше нуля")
+		return 0, errors.New("Длительность тренировки должна быть больше нуля")
 	}
 
 	speed := meanSpeed(steps, height, duration)

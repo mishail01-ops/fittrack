@@ -1,6 +1,7 @@
 package daysteps
 
 import (
+	"errors"
 	"fmt"
 	"strconv"
 	"strings"
@@ -30,7 +31,7 @@ func parsePackage(data string) (int, time.Duration, error) {
 			return 0, 0, err
 		}
 		if step <= 0 {
-			return 0, 0, fmt.Errorf("Количество шагов должна быть больше нуля")
+			return 0, 0, errors.New("Количество шагов должна быть больше нуля")
 		}
 
 		duration, err = time.ParseDuration(spl[1])
@@ -43,14 +44,14 @@ func parsePackage(data string) (int, time.Duration, error) {
 			return 0, 0, err
 		}
 		if duration <= 0 {
-			return 0, 0, fmt.Errorf("Длительность должна быть больше нуля")
+			return 0, 0, errors.New("Длительность должна быть больше нуля")
 
 		}
 
 		return step, duration, nil
 	}
 
-	err = fmt.Errorf("Неверный формат данных")
+	err = errors.New("Неверный формат данных")
 	return 0, 0, err
 
 }
