@@ -3,6 +3,7 @@ package daysteps
 import (
 	"errors"
 	"fmt"
+	"log"
 	"strconv"
 	"strings"
 	"time"
@@ -28,10 +29,13 @@ func parsePackage(data string) (int, time.Duration, error) {
 
 		step, err = strconv.Atoi(spl[0])
 		if err != nil {
+			log.Println(err)
 			return 0, 0, err
 		}
 		if step <= 0 {
-			return 0, 0, errors.New("Количество шагов должна быть больше нуля")
+			err := errors.New("Количество шагов должна быть больше нуля")
+			log.Println(err)
+			return 0, 0, err
 		}
 
 		duration, err = time.ParseDuration(spl[1])
@@ -41,9 +45,12 @@ func parsePackage(data string) (int, time.Duration, error) {
 		//fmt.Println("!!!Длительность: ", duration)
 
 		if err != nil {
+			log.Println(err)
 			return 0, 0, err
 		}
 		if duration <= 0 {
+			err := errors.New("Длительность должна быть больше нуля")
+			log.Println(err)
 			return 0, 0, errors.New("Длительность должна быть больше нуля")
 
 		}
@@ -52,6 +59,7 @@ func parsePackage(data string) (int, time.Duration, error) {
 	}
 
 	err = errors.New("Неверный формат данных")
+	log.Println(err)
 	return 0, 0, err
 
 }
@@ -60,6 +68,7 @@ func DayActionInfo(data string, weight, height float64) string {
 
 	steps, duration, err := parsePackage(data)
 	if err != nil {
+		log.Println(err)
 		fmt.Println("Ошибка DayActionInfo: ", err)
 		return ""
 	}
@@ -68,6 +77,7 @@ func DayActionInfo(data string, weight, height float64) string {
 
 	wspent, err := sc.WalkingSpentCalories(steps, weight, height, duration)
 	if err != nil {
+		log.Println(err)
 		fmt.Println("Ошибка: ", err)
 		return ""
 	}

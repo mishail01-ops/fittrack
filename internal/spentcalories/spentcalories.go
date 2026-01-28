@@ -23,25 +23,33 @@ func parseTraining(data string) (int, string, time.Duration, error) {
 	spl := strings.Split(data, ",")
 
 	if len(spl) != 3 {
-		return 0, "", 0, errors.New("Неверный формат данных")
+		err := errors.New("Неверный формат данных")
+		log.Println(err)
+		return 0, "", 0, err
 	}
 	steps, err := strconv.Atoi(spl[0])
 	if err != nil {
+		log.Println(err)
 		return 0, "", 0, err
 	}
 	//Дополнительная проверка
 	if steps <= 0 {
-		return 0, "", 0, errors.New("Количество шагов должна быть больше нуля")
+		err := errors.New("Количество шагов должна быть больше нуля")
+		log.Println(err)
+		return 0, "", 0, err
 	}
 	//Конец доп. проверкам
 
 	duration, err := time.ParseDuration(spl[2])
 	if err != nil {
+		log.Println(err)
 		return 0, "", 0, err
 	}
 	//Дополнительная проверка
 	if duration.Minutes() <= 0 {
-		return 0, "", 0, errors.New("Длительность тренировки должна быть больше нуля")
+		err := errors.New("Длительность тренировки должна быть больше нуля")
+		log.Println(err)
+		return 0, "", 0, err
 	}
 	//Конец доп. проверкам
 
@@ -80,13 +88,13 @@ func TrainingInfo(data string, weight, height float64) (string, error) {
 	}
 
 	if weight <= 0 {
-		err = fmt.Errorf("Вес должен быть больше нуля")
+		err = errors.New("Вес должен быть больше нуля")
 		log.Println(err)
 		return "", err
 	}
 
 	if height <= 0 {
-		err = fmt.Errorf("Рост должен быть больше нуля")
+		err = errors.New("Рост должен быть больше нуля")
 		log.Println(err)
 		return "", err
 	}
@@ -109,7 +117,7 @@ func TrainingInfo(data string, weight, height float64) (string, error) {
 		}
 
 	default:
-		return "", fmt.Errorf("неизвестный тип тренировки: %s", tp)
+		return "", errors.New("неизвестный тип тренировки: %s", tp)
 	}
 
 	dist := distance(steps, height)
@@ -127,19 +135,27 @@ func TrainingInfo(data string, weight, height float64) (string, error) {
 
 func RunningSpentCalories(steps int, weight, height float64, duration time.Duration) (float64, error) {
 	if weight <= 0 {
-		return 0, errors.New("Вес должен быть больше нуля")
+		err := errors.New("Вес должен быть больше нуля")
+		log.Println(err)
+		return 0, err
 	}
 
 	if height <= 0 {
-		return 0, errors.New("Рост должен быть больше нуля")
+		err := errors.New("Рост должен быть больше нуля")
+		log.Println(err)
+		return 0, err
 	}
 
 	if steps <= 0 {
-		return 0, errors.New("Количество шагов должна быть больше нуля")
+		err := errors.New("Количество шагов должна быть больше нуля")
+		log.Println(err)
+		return 0, err
 	}
 
 	if duration.Minutes() <= 0 {
-		return 0, errors.New("Длительность тренировки должна быть больше нуля")
+		err := errors.New("Длительность тренировки должна быть больше нуля")
+		log.Println(err)
+		return 0, err
 	}
 
 	speed := meanSpeed(steps, height, duration)
@@ -151,19 +167,27 @@ func RunningSpentCalories(steps int, weight, height float64, duration time.Durat
 
 func WalkingSpentCalories(steps int, weight, height float64, duration time.Duration) (float64, error) {
 	if weight <= 0 {
-		return 0, errors.New("Вес должен быть больше нуля")
+		err := errors.New("Вес должен быть больше нуля")
+		log.Println(err)
+		return 0, err
 	}
 
 	if height <= 0 {
-		return 0, errors.New("Рост должен быть больше нуля")
+		err := errors.New("Рост должен быть больше нуля")
+		log.Println(err)
+		return 0, err
 	}
 
 	if steps <= 0 {
-		return 0, errors.New("Количество шагов не может быть отрицательным")
+		err := errors.New("Количество шагов не может быть отрицательным")
+		log.Println(err)
+		return 0, err
 	}
 
 	if duration.Minutes() <= 0 {
-		return 0, errors.New("Длительность тренировки должна быть больше нуля")
+		err := errors.New("Длительность тренировки должна быть больше нуля")
+		log.Println(err)
+		return 0, err
 	}
 
 	speed := meanSpeed(steps, height, duration)
