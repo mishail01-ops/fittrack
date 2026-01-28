@@ -24,7 +24,7 @@ func parsePackage(data string) (int, time.Duration, error) {
 	var duration time.Duration
 
 	if len(spl) == 2 {
-		//return 0, 0, fmt.Errorf("Неверный формат данных")
+
 		step, err = strconv.Atoi(spl[0])
 		if err != nil {
 			return 0, 0, err
@@ -37,10 +37,14 @@ func parsePackage(data string) (int, time.Duration, error) {
 		if err != nil {
 			return 0, 0, err
 		}
+		if duration <= 0 {
+			return 0, 0, fmt.Errorf("Длительность должна быть больше нуля")
+		}
+
 		return step, duration, nil
 	}
 
-	err = fmt.Errorf("Неверный формат данных1")
+	err = fmt.Errorf("Неверный формат данных")
 	return 0, 0, err
 
 }
@@ -49,14 +53,10 @@ func DayActionInfo(data string, weight, height float64) string {
 
 	steps, duration, err := parsePackage(data)
 	if err != nil {
-		fmt.Println("Ошибка: ", err)
+		fmt.Println("Ошибка DayActionInfo: ", err)
 		return ""
 	}
 
-	if steps <= 0 {
-		fmt.Println("Ошибка: Количество шагов не может быть отрицательным")
-		return ""
-	}
 	distance := float64(steps) * stepLength / mInKm
 
 	wspent, err := sc.WalkingSpentCalories(steps, weight, height, duration)
