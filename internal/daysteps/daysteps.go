@@ -68,6 +68,6 @@ func DayActionInfo(data string, weight, height float64) string {
 	//Количество шагов: 792.
 	//Дистанция составила 0.51 км.
 	//Вы сожгли 221.33 ккал.
-	return fmt.Sprintf("Количество шагов: %d.\nДистанция составила %.2f км.\nВы сожгли %.2f ккал.", steps, distance, wspent)
+	return fmt.Sprintf("Количество шагов: %d.\nДистанция составила %.2f км.\nВы сожгли %.2f ккал.\n", steps, distance, wspent)
 
 }
